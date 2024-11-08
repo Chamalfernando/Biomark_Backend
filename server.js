@@ -1,7 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
-const userRoutes = require("./routes/userRoutes");
+const bodyParser = require("body-parser");
+const pacRoutes = require("./routes/pacRoutes");
+// const userRoutes = require("./routes/userRoutes");
 // const logger = require("./middlewares/logger");
 
 const app = express();
@@ -10,15 +12,18 @@ const app = express();
 app.use(morgan("dev"));
 // app.use(logger);
 
-// Middleware for parsing JSON
-app.use(express.json());
+// Middleware
+app.use(bodyParser.json());
 
 // Use user routes
-app.use("/api/users", userRoutes);
+// app.use("/api/users", userRoutes);
+
+// Use PAC routes
+app.use("/api", pacRoutes);
 
 // Connect to MongoDB
 mongoose
-  .connect("mongodb://localhost:27017/userDB", {
+  .connect("mongodb://localhost:27017/userPacModelData", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

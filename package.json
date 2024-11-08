@@ -10,9 +10,12 @@
   "author": "Chamal Fernando",
   "license": "ISC",
   "dependencies": {
+    "biomark_backend": "file:",
+    "body-parser": "^1.20.3",
     "express": "^4.21.1",
     "mongoose": "^8.8.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "uuid": "^11.0.2"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
