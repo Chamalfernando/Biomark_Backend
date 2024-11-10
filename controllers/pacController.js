@@ -1,5 +1,5 @@
 // const logger = require("../middleware/logger");
-const Pac = require("./models/PacModel");
+const Pac = require("../models/PacModel");
 const { v4: uuidv4 } = require("uuid");
 
 // PAC creation endpoint
@@ -16,7 +16,7 @@ exports.createPac = async (req, res) => {
   } = req.body;
 
   try {
-    const uniqueId = uuidv4(18); // Generate a new unique identifier
+    const uniqueId = uuidv4(); // Generate a new unique identifier
     const newPac = new Pac({
       uniqueId,
       dateOfBirth,
@@ -29,18 +29,34 @@ exports.createPac = async (req, res) => {
       eyeColor,
     });
 
+    if (
+      !dateOfBirth ||
+      !timeOfBirth ||
+      !location ||
+      !bloodGroup ||
+      !sex ||
+      !heightInMeters ||
+      !ethnicity ||
+      !eyeColor
+    ) {
+      return res.status(400).json({
+        message: "Missing required fields",
+      });
+    }
+
     // Save the PAC record to MongoDB
     await newPac.save();
-    req.session.userId = uniqueId; // Store uniqueId in session for user identification
+    // req.session.userId = uniqueId; // Store uniqueId in session for user identification
     res.status(201).json({
       message: "PAC created successfully",
       //   message: logger(req, res),
       uniqueId,
     });
   } catch (error) {
+    console.error("Error creating PAC:", error); // Log the full error
     res.status(500).json({
       message: "Error creating PAC",
-      error,
+      error: error.message || error, // Return the error message
     });
   }
 };
@@ -60,10 +76,10 @@ exports.getAllPac = async (req, res) => {
 
 // Get PAC data by unique ID
 exports.getPacById = async (req, res) => {
-  const { id } = req.params;
+  const { uniqueId } = req.params;
 
   try {
-    const pac = await Pac.findById(id);
+    const pac = await Pac.findOne(uniqueId);
     if (!pac) {
       return res.status(404).json({
         message: "PAC not found",

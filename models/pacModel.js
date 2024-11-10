@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const pacSchema = new mongoose.Schema(
   {
+    uniqueId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     dateOfBirth: {
       type: String,
       required: true,

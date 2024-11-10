@@ -1,5 +1,5 @@
 const express = require("express");
-const pacController = require("./controllers/pacController");
+const pacController = require("../controllers/pacController");
 
 const router = express.Router();
 
