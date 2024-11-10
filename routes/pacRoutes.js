@@ -12,4 +12,7 @@ router.get("/pac", pacController.getAllPac);
 // GET /pac/:id - Get PAC data by ID
 router.get("/pac/:id", pacController.getPacById);
 
+// DELETE /pac/:id - Delete PAC by ID
+router.delete("/pac/:id", pacController.deletePacById);
+
 module.exports = router;

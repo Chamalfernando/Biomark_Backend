@@ -93,3 +93,25 @@ exports.getPacById = async (req, res) => {
     });
   }
 };
+
+// Delete PAC data by unique ID
+exports.deletePacById = async (req, res) => {
+  const { uniqueId } = req.params;
+
+  try {
+    const pac = await Pac.findOneAndDelete(uniqueId);
+    if (!pac) {
+      return res.status(404).json({
+        message: "PAC not found",
+      });
+    }
+    res.status(200).json({
+      message: "PAC deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error deleting PAC data",
+      error,
+    });
+  }
+};
